@@ -1,0 +1,1 @@
+export { addNewNote } from './Note';

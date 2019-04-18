@@ -2,9 +2,13 @@
   "name": "@svc/markdown-notes",
   "version": "0.0.1",
   "description": "Markdown Notes using local storage",
-  "main": "index.js",
+  "main": "src/index.tsx",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:dev": "webpack -p --mode development",
+    "build:prod": "webpack -p --mode production",
+    "changelog": "github_changelog_generator",
+    "postinstall": "gem install github_changelog_generator",
+    "preversion": "npm run changelog && git add CHANGELOG.md && git commit --amend --no-edit"
   },
   "repository": {
     "type": "git",
@@ -21,5 +25,37 @@
   "bugs": {
     "url": "https://github.com/kamthamc/MarkdownNotes/issues"
   },
-  "homepage": "https://github.com/kamthamc/MarkdownNotes#readme"
+  "homepage": "https://github.com/kamthamc/MarkdownNotes#readme",
+  "dependencies": {
+    "immer": "^3.0.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-intl-universal": "^1.15.7",
+    "react-redux": "^7.0.2",
+    "react-router": "^5.0.0",
+    "redux": "^4.0.1",
+    "redux-saga": "^1.0.2",
+    "reselect": "^4.0.0",
+    "styled-components": "^4.2.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "@types/react": "^16.8.13",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-redux": "^7.0.7",
+    "babel-loader": "^8.0.5",
+    "clean-webpack-plugin": "^2.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-template": "^6.2.0",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.4.3",
+    "uglifyjs-webpack-plugin": "^2.1.2",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.3.1"
+  }
 }
