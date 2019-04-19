@@ -1,11 +1,14 @@
 import * as React from 'react';
 
-interface Props {
-    name: string
-}
+import { NotesListContainer } from './Containers';
+import { Route } from 'react-router';
 
-export class App extends React.Component<Props> {
-    render() {
-        return <div>Hello {this.props.name}</div>;
-    }
-}
+const App = () => (
+    <div>
+        Wow
+        <NotesListContainer />
+        <Route path="/" exact component={NotesListContainer} />
+    </div>
+);
+
+export default App;

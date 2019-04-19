@@ -2,7 +2,23 @@ import { produce } from 'immer';
 import { ActionTypes } from '../Constants';
 import { RequestStatus } from '../../../Constants';
 
-const initialState = {
+export interface NotesListState {
+    list: Array<{}>
+    addNewNote: {
+        status: RequestStatus,
+        error: string | null,
+    },
+    deleteNote: {
+        status: RequestStatus,
+        error: string | null,
+    }
+    openNote: {
+        status: RequestStatus,
+        error: string | null,
+    }
+}
+
+const initialState: NotesListState = {
     list: [],
     addNewNote: {
         status: RequestStatus.NONE,
@@ -11,11 +27,15 @@ const initialState = {
     deleteNote: {
         status: RequestStatus.NONE,
         error: null,
-    }
+    },
+    openNote: {
+        status: RequestStatus.NONE,
+        error: null,
+    },
 };
 
 
-const notesList = produce( (draft, action) => {
+const notesList = produce( (draft: NotesListState, action) => {
     switch (action.type) {
 
         case ActionTypes.ADD_NEW_NOTE:
@@ -34,7 +54,7 @@ const notesList = produce( (draft, action) => {
 
         case ActionTypes.ADD_NEW_NOTE_COMPLETED:
             draft.addNewNote.status = RequestStatus.COMPLETED;
-            draft.list.push(draft.payload.newNote);
+            draft.list.push(action.payload.newNote);
             break;
 
         case ActionTypes.DELETE_NOTE:
