@@ -5,9 +5,7 @@ import { Route } from 'react-router';
 
 const App = () => (
     <div>
-        Wow
-        <NotesListContainer />
-        <Route path="/" exact component={NotesListContainer} />
+        <Route path="/" component={NotesListContainer} />
     </div>
 );
 
