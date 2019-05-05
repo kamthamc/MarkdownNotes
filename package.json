@@ -8,7 +8,8 @@
     "build:prod": "webpack -p --mode production",
     "changelog": "github_changelog_generator",
     "postinstall": "gem install github_changelog_generator",
-    "preversion": "npm run changelog && git add CHANGELOG.md && git commit --amend --no-edit"
+    "preversion": "npm run changelog && git add CHANGELOG.md && git commit --amend --no-edit",
+    "start": "PORT=8082 webpack-dev-server"
   },
   "repository": {
     "type": "git",
@@ -27,13 +28,16 @@
   },
   "homepage": "https://github.com/kamthamc/MarkdownNotes#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.8.1",
     "immer": "^3.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-intl-universal": "^1.15.7",
     "react-redux": "^7.0.2",
     "react-router": "^5.0.0",
+    "react-router-dom": "latest",
     "redux": "^4.0.1",
+    "redux-devtools-extension": "latest",
     "redux-saga": "^1.0.2",
     "reselect": "^4.0.0",
     "styled-components": "^4.2.0",
@@ -47,6 +51,8 @@
     "@types/react": "^16.8.13",
     "@types/react-dom": "^16.8.4",
     "@types/react-redux": "^7.0.7",
+    "@types/react-router-dom": "^4.3.2",
+    "@types/styled-components": "^4.1.14",
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^2.0.1",
     "html-webpack-plugin": "^3.2.0",

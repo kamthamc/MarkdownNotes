@@ -8,6 +8,11 @@ const config = {
 		path: path.resolve(__dirname, 'dist'),
 		filename: '[name].[contenthash].js'
 	},
+	devServer: {
+		contentBase: path.join(__dirname, 'dist'),
+		compress: true,
+		port: process.env.PORT || 8080
+	},
 	module: {
 		rules: [
 			{

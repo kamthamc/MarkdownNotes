@@ -1,8 +1,7 @@
 import { ActionTypes } from '../Constants';
 
-export const addNewNote = (payload: any) => ({
+export const addNewNote = () => ({
     type: ActionTypes.ADD_NEW_NOTE,
-    payload
 });
 
 export const deleteNote = (payload: any) => ({
@@ -12,5 +11,16 @@ export const deleteNote = (payload: any) => ({
 
 export const openNote = (payload: any) => ({
     type: ActionTypes.OPEN_NOTE,
+    payload
+});
+
+export const updateNote = (payload: any) => ({
+    type: ActionTypes.UPDATE_NOTE,
+    payload
+});
+
+
+export const toggleEditMode = (payload: any) => ({
+    type: ActionTypes.TOGGLE_EDIT_MODE,
     payload
 });
