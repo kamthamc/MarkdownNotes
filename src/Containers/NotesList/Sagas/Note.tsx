@@ -1,11 +1,18 @@
-import { put, takeLatest, select } from 'redux-saga/effects';
+import { put, takeLatest, select, delay } from 'redux-saga/effects';
 
-// @ts-ignore
 import { v4 } from 'uuid';
 
 import { ActionTypes } from '../Constants';
+import { Note } from '../typings';
 
-function* addNewNoteSaga(action: any) {
+
+const storageKeyPrefix = 'RMN';
+
+const notesKey = `${storageKeyPrefix}.notes`;
+
+const listSelector = (state: any) => state.notesList.list;
+
+function* addNewNoteSaga() {
     try {
         yield put({
             type: ActionTypes.ADD_NEW_NOTE_IN_PROGRESS
@@ -23,6 +30,10 @@ function* addNewNoteSaga(action: any) {
             payload: {
                 newNote,
             }
+        });
+        yield delay(500);
+        yield put({
+            type: ActionTypes.SAVE_NOTES
         });
     } catch (e) {
         console.error(e);
@@ -61,9 +72,6 @@ function* deleteNoteSaga(action: any) {
 function* openNoteSaga(action: any) {
     const { payload }: { payload: any } = action;
     try {
-        // yield put({
-        //     type: ActionTypes.OPEN_NOTE_IN_PROGRESS
-        // });
         yield put({
             type: ActionTypes.OPEN_NOTE_COMPLETED,
             payload
@@ -75,9 +83,6 @@ function* openNoteSaga(action: any) {
         });
     }
 }
-
-const listSelector = (state: any) => state.notesList.list;
-
 
 function* updateNoteSaga(action: any) {
     const { payload }: { payload: any } = action;
@@ -99,6 +104,10 @@ function* updateNoteSaga(action: any) {
                     note: { ...payload.note, title }
                 }
             });
+            yield delay(500);
+            yield put({
+                type: ActionTypes.SAVE_NOTES
+            });
         } else {
             throw new Error('Note not found');
         }
@@ -110,10 +119,41 @@ function* updateNoteSaga(action: any) {
     }
 }
 
+function* loadNotesFromLocalStorage() {
+    const notes = window.localStorage.getItem(notesKey);
+    if ( notes ) {
+        try {
+            const parsedNotes: Array<Note> = JSON.parse(notes);
+            if ( parsedNotes.length ) {
+                yield put({
+                    type: ActionTypes.SET_NOTES,
+                    payload: {
+                        notes: parsedNotes,
+                    }
+                });
+            }
+        } catch ( e ) {
+            console.error(e);
+        }
+    }
+}
+
+function* saveNotesToLocalStorage() {
+    try {
+        const notes = yield select(listSelector);
+        window.localStorage.setItem(notesKey, JSON.stringify(notes));
+    } catch ( e ) {
+        console.error(e);
+    }
+}
+
 export default function* sagas () {
-    const { ADD_NEW_NOTE, DELETE_NOTE, OPEN_NOTE, UPDATE_NOTE } = ActionTypes;
+
+    const { ADD_NEW_NOTE, DELETE_NOTE, OPEN_NOTE, UPDATE_NOTE, LOAD_NOTES, SAVE_NOTES } = ActionTypes;
     yield takeLatest(OPEN_NOTE, openNoteSaga);
     yield takeLatest(UPDATE_NOTE, updateNoteSaga);
     yield takeLatest(DELETE_NOTE, deleteNoteSaga);
     yield takeLatest(ADD_NEW_NOTE, addNewNoteSaga);
+    yield takeLatest(LOAD_NOTES, loadNotesFromLocalStorage);
+    yield takeLatest(SAVE_NOTES, saveNotesToLocalStorage);
 }

@@ -25,6 +25,7 @@ interface Props {
     openNote: ({}) => void,
     updateNote: ({}) => void,
     addNewNote: () => void,
+    loadNotes: () => void,
     notes: Array<string>,
     notesMap: {
         [id: string]: Note,
@@ -36,7 +37,7 @@ interface Props {
 class NotesList extends React.PureComponent<Props> {
 
     componentDidMount() {
-
+        this.props.loadNotes();
     }
 
     addNewNote = () => {

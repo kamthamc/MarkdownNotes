@@ -5,13 +5,14 @@ import NotesList from './NotesList';
 
 import {activeNoteIdSelector, editModeSelector, notesListSelector, notesMapSelector} from './Selectors';
 
-import { openNote, deleteNote, addNewNote, updateNote } from './Actions';
+import { openNote, deleteNote, addNewNote, updateNote, loadNotes } from './Actions';
 import {toggleEditMode} from "./Actions/Note";
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     openNote: (payload: any) => dispatch(openNote(payload)),
     updateNote: (payload: any) => dispatch(updateNote(payload)),
     deleteNote: (payload: any) => dispatch(deleteNote(payload)),
+    loadNotes: () => dispatch(loadNotes()),
     addNewNote: () => dispatch(addNewNote()),
     toggleEditMode: (payload: any) => dispatch(toggleEditMode(payload)),
 });

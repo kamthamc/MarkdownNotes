@@ -1,1 +1,1 @@
-export { addNewNote, deleteNote, openNote, updateNote } from './Note';
+export { addNewNote, deleteNote, openNote, updateNote, loadNotes } from './Note';

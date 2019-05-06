@@ -1,9 +1,9 @@
 # Change Log
 
-## [Unreleased](https://github.com/kamthamc/MarkdownNotes/tree/HEAD)
-
+## [0.1.0](https://github.com/kamthamc/MarkdownNotes/tree/0.1.0) (2019-05-05)
 **Merged pull requests:**
 
+- Basic version of notes [\#2](https://github.com/kamthamc/MarkdownNotes/pull/2) ([kamthamc](https://github.com/kamthamc))
 - Initial commit [\#1](https://github.com/kamthamc/MarkdownNotes/pull/1) ([kamthamc](https://github.com/kamthamc))
 
 
