@@ -127,6 +127,9 @@ const notesList = produce( (draft: NotesListState, action) => {
         case ActionTypes.TOGGLE_EDIT_MODE:
             draft.openNote.editMode = action.payload.editMode;
             break;
+
+        case ActionTypes.SET_NOTES:
+            draft.list = action.payload.notes;
     }
 }, initialState);
 

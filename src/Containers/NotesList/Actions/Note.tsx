@@ -4,6 +4,10 @@ export const addNewNote = () => ({
     type: ActionTypes.ADD_NEW_NOTE,
 });
 
+export const loadNotes = () => ({
+    type: ActionTypes.LOAD_NOTES,
+});
+
 export const deleteNote = (payload: any) => ({
     type: ActionTypes.DELETE_NOTE,
     payload
