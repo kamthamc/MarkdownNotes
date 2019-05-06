@@ -18,6 +18,7 @@ import EmptySelection from "./EmptySelection";
 import { MarkdownEditor } from "./MarkdownEditor";
 import { PreviewPanel } from "./PreviewPanel";
 import { Note } from "./typings";
+import { getMarkdownHTML } from '../../Helpers/Markdown';
 
 
 interface Props {
@@ -54,9 +55,7 @@ class NotesList extends React.PureComponent<Props> {
         const { title, updatedTs }: Note = this.props.notesMap[id];
         return (
             <NoteLabelContainer key={id} onClick={() => this.openNote(id)}>
-                <NoteTitle>
-                    {title}
-                </NoteTitle>
+                <NoteTitle dangerouslySetInnerHTML={{ __html: getMarkdownHTML(title, true)}} />
                 <LastUpdated>
                     {updatedTs}
                 </LastUpdated>
@@ -76,13 +75,12 @@ class NotesList extends React.PureComponent<Props> {
             if(activeNote.content.length === 0 && this.props.editMode === false) {
                 this.props.toggleEditMode({ editMode: true });
             }
-            const Panel = this.props.editMode === true ? MarkdownEditor : PreviewPanel;
-            const headerPanel = this.props.editMode === true ?
+            const Panel = this.props.editMode ? MarkdownEditor : PreviewPanel;
+            const headerPanel = this.props.editMode ?
                 (
                     <MarkdownHeader>
-                        <MarkdownHeaderTitle>
-                            {activeNote.title}
-                        </MarkdownHeaderTitle>
+                        <MarkdownHeaderTitle
+                            dangerouslySetInnerHTML={{ __html: getMarkdownHTML(activeNote.title, true)}} />
                         <NotesListHeaderActions>
                             <NotesListHeaderActionItem
                                 onClick={() => this.props.toggleEditMode({ editMode: false })}
@@ -94,10 +92,8 @@ class NotesList extends React.PureComponent<Props> {
                 ) :
                 (
                     <MarkdownHeader>
-                        <MarkdownHeaderTitle>
-                            {activeNote.title}
-                        </MarkdownHeaderTitle>
-                        <NotesListHeaderActions>
+                        <MarkdownHeaderTitle dangerouslySetInnerHTML={{ __html: getMarkdownHTML(activeNote.title, true)}} />
+                            <NotesListHeaderActions>
                             <NotesListHeaderActionItem
                                 onClick={() => this.props.toggleEditMode({ editMode: true })}
                             >

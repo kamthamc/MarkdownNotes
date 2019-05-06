@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Note } from "../typings";
+import { getMarkdownHTML } from '../../../Helpers/Markdown';
 
 interface Props {
     note: Note
@@ -7,9 +8,7 @@ interface Props {
 
 const PreviewPanel = (props: Props) => {
     return (
-        <div>
-            {props.note.content}
-        </div>
+        <div dangerouslySetInnerHTML={{ __html: getMarkdownHTML(props.note.content) }} />
     );
 };
 
