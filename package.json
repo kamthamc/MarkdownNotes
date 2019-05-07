@@ -6,9 +6,7 @@
   "scripts": {
     "build:dev": "webpack -p --mode development",
     "build:prod": "webpack -p --mode production",
-    "changelog": "github_changelog_generator",
-    "postinstall": "gem install github_changelog_generator",
-    "postversion": "semantic-release",
+    "changelog": "semantic-release",
     "start": "PORT=8082 webpack-dev-server"
   },
   "repository": {
@@ -52,6 +50,7 @@
     "@semantic-release/changelog": "^3.0.2",
     "@semantic-release/commit-analyzer": "^6.1.0",
     "@semantic-release/git": "^7.0.8",
+    "@semantic-release/npm": "^5.1.7",
     "@semantic-release/release-notes-generator": "^7.1.4",
     "@types/marked": "^0.6.5",
     "@types/react": "^16.8.13",
@@ -64,6 +63,7 @@
     "clean-webpack-plugin": "^2.0.1",
     "html-webpack-plugin": "^3.2.0",
     "html-webpack-template": "^6.2.0",
+    "semantic-release": "^15.13.3",
     "ts-loader": "^5.3.3",
     "typescript": "^3.4.3",
     "uglifyjs-webpack-plugin": "^2.1.2",
@@ -75,6 +75,7 @@
     "branch": "master",
     "plugins": [
       "@semantic-release/commit-analyzer",
+      "@semantic-release/npm",
       "@semantic-release/release-notes-generator",
       [
         "@semantic-release/changelog",
