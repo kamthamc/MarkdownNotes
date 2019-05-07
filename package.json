@@ -6,7 +6,7 @@
   "scripts": {
     "build:dev": "webpack -p --mode development",
     "build:prod": "webpack -p --mode production",
-    "release": "semantic-release",
+    "release": "semantic-release --debug",
     "start": "PORT=8082 webpack-dev-server"
   },
   "repository": {
@@ -76,21 +76,21 @@
     "branch": "master",
     "plugins": [
       "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      ["@semantic-release/changelog", {
+        "changelogFile": "CHANGELOG.md"
+      }],
       [
         "@semantic-release/npm",
         {
           "npmPublish": false
         }
       ],
-      "@semantic-release/release-notes-generator",
-      ["@semantic-release/changelog", {
-        "changelogFile": "CHANGELOG.md"
-      }],
       [
         "@semantic-release/git",
         {
           "assets": [
-            "dist/**/*.{js,css}"
+            "dist/*.{js,css,html}"
           ],
           "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
         }
