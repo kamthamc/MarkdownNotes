@@ -20,3 +20,8 @@ action "Tag" {
   runs = "npm run release"
   secrets = ["GH_TOKEN"]
 }
+
+workflow "Release" {
+  on = "check_run"
+  resolves = ["Tag"]
+}
