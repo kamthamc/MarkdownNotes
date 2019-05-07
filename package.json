@@ -1,6 +1,6 @@
 {
   "name": "@svc/markdown-notes",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Markdown Notes using local storage",
   "main": "src/index.tsx",
   "scripts": {
@@ -76,9 +76,12 @@
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
-      ["@semantic-release/changelog", {
-        "changelogFile": "docs/CHANGELOG.md"
-      }],
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "docs/CHANGELOG.md"
+        }
+      ],
       "@semantic-release/git"
     ],
     "ci": true
