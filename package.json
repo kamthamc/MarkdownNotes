@@ -77,9 +77,12 @@
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
-      ["@semantic-release/changelog", {
-        "changelogFile": "CHANGELOG.md"
-      }],
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "CHANGELOG.md"
+        }
+      ],
       [
         "@semantic-release/npm",
         {
@@ -95,11 +98,14 @@
           "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
         }
       ],
-      ["@semantic-release/github", {
-        "assets": [
-          "dist/*.{js,css,html}"
-        ]
-      }]
+      [
+        "@semantic-release/github",
+        {
+          "assets": [
+            "dist/*.{js,css,html}"
+          ]
+        }
+      ]
     ],
     "ci": true
   }
