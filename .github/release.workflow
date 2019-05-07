@@ -1,9 +1,15 @@
-workflow "Release workflow" {
+workflow "Build and Tag" {
   on = "push"
-  resolves = ["GitHub Action for npm"]
+  resolves = ["Tag"]
 }
 
-action "GitHub Action for npm" {
+action "Build" {
   uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
-  runs = "npm install && npm run changelog"
+  runs = "install"
+}
+
+action "Tag" {
+  needs = "Build"
+  uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
+  runs = "changelog"
 }
