@@ -90,7 +90,7 @@
         "@semantic-release/git",
         {
           "assets": [
-            "dist/*.{js,css,html}"
+            "CHANGELOG.md"
           ],
           "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
         }
