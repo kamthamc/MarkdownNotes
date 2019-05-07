@@ -97,7 +97,7 @@
       ],
       ["@semantic-release/github", {
         "assets": [
-          "dist"
+          "dist/*.{js,css,html}"
         ]
       }]
     ],
