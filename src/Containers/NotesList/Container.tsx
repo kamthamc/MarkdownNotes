@@ -2,11 +2,9 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import NotesList from './NotesList';
-
-import {activeNoteIdSelector, editModeSelector, notesListSelector, notesMapSelector} from './Selectors';
-
+import { activeNoteIdSelector, editModeSelector, notesListSelector, notesMapSelector } from './Selectors';
 import { openNote, deleteNote, addNewNote, updateNote, loadNotes } from './Actions';
-import {toggleEditMode} from "./Actions/Note";
+import { toggleEditMode } from "./Actions/Note";
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     openNote: (payload: any) => dispatch(openNote(payload)),

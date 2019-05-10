@@ -26,8 +26,12 @@ const config = {
 				exclude: /node_modules/
 			},
 			{
-				test: /\.svg$/,
+				test: /\.(woff(2)?|ttf|eot|svg)$/,
 				use: 'file-loader'
+			},
+			{
+				test: /\.css$/,
+				use: 'css-loader'
 			}
 		]
 	},

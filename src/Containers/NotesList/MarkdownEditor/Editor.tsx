@@ -1,6 +1,8 @@
 import * as React from 'react';
-import {Note} from "../typings";
-import {ChangeEvent} from "react";
+import { ChangeEvent } from 'react';
+import { Note } from "../typings";
+import TextField from '@material-ui/core/TextField';
+
 
 interface Props {
     note: Note,
@@ -14,14 +16,20 @@ const EmptyNotesList = (props: Props) => {
         props.updateNote(newNote);
     };
     return (
-        <div>
-            <textarea
-                value={props.note.content}
-                onChange={onChange}
-                style={{ width: '100%', height: '100%' }}
-                rows={10}
-            />
-        </div>
+        <TextField
+            type="textarea"
+            label="Multiline"
+            multiline
+            rows="10"
+            placeholder="Notes"
+            fullWidth
+            autoFocus
+            value={props.note.content}
+            onChange={onChange}
+            margin="normal"
+            helperText="hello"
+            variant="filled"
+        />
     );
 };
 
