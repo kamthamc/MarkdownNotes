@@ -19,6 +19,7 @@ import { MarkdownEditor } from "./MarkdownEditor";
 import { PreviewPanel } from "./PreviewPanel";
 import { Note } from "./typings";
 import { getMarkdownHTML } from '../../Helpers/Markdown';
+import { ThemeProvider, withStyles  } from '@material-ui/styles';
 
 
 interface Props {
@@ -33,10 +34,14 @@ interface Props {
     },
     activeNoteId?: string,
     editMode: boolean,
+    theme: any,
 }
 
-class NotesList extends React.PureComponent<Props> {
+class NotesList extends React.Component<Props> {
 
+    childContextTypes = {
+        theme: {},
+    };
     componentDidMount() {
         this.props.loadNotes();
     }
@@ -146,6 +151,10 @@ class NotesList extends React.PureComponent<Props> {
         }
     };
 
+    // getChildContext() {
+    //     return this.context;
+    // }
+
     render() {
         return (
             <NotesListContainerDiv>
@@ -186,6 +195,10 @@ class NotesList extends React.PureComponent<Props> {
         );
     }
 }
+//
+// NotesList.childContextTypes = {
+//     theme: {},
+// };
 
 
-export default NotesList;
+export default withStyles({})(NotesList);

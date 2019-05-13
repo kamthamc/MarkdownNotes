@@ -12,25 +12,26 @@ const ContainerDiv = styled('div')({
   height: '100%',
 });
 
-const theme = createMuiTheme({
+const lightTheme = createMuiTheme({
     palette: {
+        type: 'light',
+    },
+});
+
+const darkTheme = createMuiTheme({
+    palette: {
+        type: 'dark',
         primary: {
-            light: '#757ce8',
-            main: '#3f50b5',
-            dark: '#002884',
-            contrastText: '#fff',
+            main: '#322f36'
         },
         secondary: {
-            light: '#ff7961',
-            main: '#f44336',
-            dark: '#ba000d',
-            contrastText: '#000',
-        },
+            main: '#fff'
+        }
     },
 });
 
 const App = () => (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={darkTheme}>
         <ContainerDiv>
             <CssBaseline />
             <Container maxWidth={false} style={{ height: '100%', padding: 0 }}>

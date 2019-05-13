@@ -50,6 +50,8 @@ const config = {
 			inject: false,
 			appMountId: 'app',
 			lang:'en-us',
+			title: 'Markdown Notes',
+			favicon: path.resolve(__dirname, 'resources', 'iconfinder_pages_1118205.png'),
 			meta: [
 				{
 					name: 'viewport',
