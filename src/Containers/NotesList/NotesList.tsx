@@ -1,24 +1,25 @@
 import * as React from 'react';
-import {
-    MarkdownContainerDiv,
-    NotesTitleListContainerDiv,
-    NotesListContainerDiv,
-    NoteLabelContainer,
-    LastUpdated,
-    NoteTitle,
-    NotesListHeader,
-    NotesListHeaderTitle,
-    NotesListHeaderActions,
-    NotesListHeaderActionItem,
-    MarkdownHeaderTitle,
-    MarkdownHeader
-} from './Styled';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import EditIcon from '@material-ui/icons/Edit';
+import AddIcon from '@material-ui/icons/Add';
+import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import Container from '@material-ui/core/Container';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+
+import { MarkdownContainerDiv, NotesListContainerDiv, NotesTitleListContainerDiv, } from './Styled';
 import EmptyNotesList from "./EmptyNotesList";
 import EmptySelection from "./EmptySelection";
 import { MarkdownEditor } from "./MarkdownEditor";
 import { PreviewPanel } from "./PreviewPanel";
 import { Note } from "./typings";
 import { getMarkdownHTML } from '../../Helpers/Markdown';
+import { ThemeProvider, withStyles  } from '@material-ui/styles';
 
 
 interface Props {
@@ -33,10 +34,14 @@ interface Props {
     },
     activeNoteId?: string,
     editMode: boolean,
+    theme: any,
 }
 
-class NotesList extends React.PureComponent<Props> {
+class NotesList extends React.Component<Props> {
 
+    childContextTypes = {
+        theme: {},
+    };
     componentDidMount() {
         this.props.loadNotes();
     }
@@ -51,97 +56,135 @@ class NotesList extends React.PureComponent<Props> {
         });
     };
 
+    getMomentString(value: number | string) {
+        const dt = new Date(value);
+        return `${ dt.toLocaleDateString() } ${ dt.toLocaleTimeString() }`;
+    }
+
     renderNoteMenu = (id: string) => {
         const { title, updatedTs }: Note = this.props.notesMap[id];
         return (
-            <NoteLabelContainer key={id} onClick={() => this.openNote(id)}>
-                <NoteTitle dangerouslySetInnerHTML={{ __html: getMarkdownHTML(title, true)}} />
-                <LastUpdated>
-                    {updatedTs}
-                </LastUpdated>
-            </NoteLabelContainer>
+            <ListItem
+                dense
+                button
+                key={ id }
+                onClick={ () => this.openNote(id) }
+                selected={ id === this.props.activeNoteId }
+                divider
+            >
+                <ListItemText
+                    primary={ getMarkdownHTML(title, true) }
+                    secondary={ this.getMomentString(updatedTs) }
+                />
+            </ListItem>
         )
     };
 
     updateNote = (note: Note) => {
-      this.props.updateNote({
-          note
-      });
+        this.props.updateNote({
+            note
+        });
     };
 
     renderMarkdown = () => {
-        if (this.props.activeNoteId) {
+        if ( this.props.activeNoteId ) {
             const activeNote = this.props.notesMap[this.props.activeNoteId];
-            if(activeNote.content.length === 0 && this.props.editMode === false) {
+            if ( activeNote.content.length === 0 && this.props.editMode === false ) {
                 this.props.toggleEditMode({ editMode: true });
             }
             const Panel = this.props.editMode ? MarkdownEditor : PreviewPanel;
             const headerPanel = this.props.editMode ?
                 (
-                    <MarkdownHeader>
-                        <MarkdownHeaderTitle
-                            dangerouslySetInnerHTML={{ __html: getMarkdownHTML(activeNote.title, true)}} />
-                        <NotesListHeaderActions>
-                            <NotesListHeaderActionItem
-                                onClick={() => this.props.toggleEditMode({ editMode: false })}
-                            >
-                                Done
-                            </NotesListHeaderActionItem>
-                        </NotesListHeaderActions>
-                    </MarkdownHeader>
+                    <Toolbar variant="dense">
+                        <Typography
+                            style={ { flexGrow: 1 } }
+                            variant="h6"
+                            dangerouslySetInnerHTML={ { __html: getMarkdownHTML(activeNote.title, true) } }
+                        />
+                        <IconButton
+                            onClick={ () => this.props.toggleEditMode({ editMode: false }) }
+                            color="inherit"
+                        >
+                            <CheckCircleIcon/>
+                        </IconButton>
+                    </Toolbar>
                 ) :
                 (
-                    <MarkdownHeader>
-                        <MarkdownHeaderTitle dangerouslySetInnerHTML={{ __html: getMarkdownHTML(activeNote.title, true)}} />
-                            <NotesListHeaderActions>
-                            <NotesListHeaderActionItem
-                                onClick={() => this.props.toggleEditMode({ editMode: true })}
+                    <Toolbar variant="dense">
+                        <Typography
+                            variant="h6"
+                            style={ { flexGrow: 1 } }
+                            dangerouslySetInnerHTML={ { __html: getMarkdownHTML(activeNote.title, true) } }
+                        />
+                        <div>
+                            <IconButton
+                                onClick={ () => this.props.toggleEditMode({ editMode: true }) }
+                                color="inherit"
                             >
-                                Edit
-                            </NotesListHeaderActionItem>
-                        </NotesListHeaderActions>
-
-                    </MarkdownHeader>
+                                <EditIcon/>
+                            </IconButton>
+                        </div>
+                    </Toolbar>
                 );
             return (
                 <>
-                    { headerPanel }
-                    <Panel note={activeNote} updateNote={this.updateNote} />
+                    <AppBar position="static">
+                        { headerPanel }
+                    </AppBar>
+                    <Card>
+                        <Panel note={ activeNote } updateNote={ this.updateNote }/>
+                    </Card>
                 </>
             );
         } else {
             return (
                 <>
-                    <MarkdownHeader />
-                    <EmptySelection />
+                    <AppBar position="static">
+                        <Toolbar variant="dense"/>
+                    </AppBar>
+                    <Container maxWidth={ false }>
+                        <EmptySelection/>
+                    </Container>
+
                 </>
             );
         }
     };
 
+    // getChildContext() {
+    //     return this.context;
+    // }
+
     render() {
         return (
             <NotesListContainerDiv>
                 <NotesTitleListContainerDiv>
-                    <NotesListHeader>
-                        <NotesListHeaderTitle>
-                            Notes
-                        </NotesListHeaderTitle>
-                        <NotesListHeaderActions>
-                            <NotesListHeaderActionItem
-                                onClick={this.addNewNote}
+                    <AppBar position="static">
+                        <Toolbar variant="dense">
+                            <Typography
+                                variant="h6"
+                                style={ { flexGrow: 1 } }
                             >
-                                Add
-                            </NotesListHeaderActionItem>
-                        </NotesListHeaderActions>
-                    </NotesListHeader>
-                    {
-                        this.props.notes.map(this.renderNoteMenu)
-                    }
-                    {
-                        this.props.notes.length === 0 &&
-                        <EmptyNotesList />
-                    }
+                                Notes
+                            </Typography>
+                            <IconButton
+                                onClick={ this.addNewNote }
+                                color="inherit"
+                            >
+                                <AddIcon/>
+                            </IconButton>
+                        </Toolbar>
+                    </AppBar>
+                    <List component="nav">
+                        {
+                            this.props.notes.map(this.renderNoteMenu)
+                        }
+
+                        {
+                            this.props.notes.length === 0 &&
+                            <EmptyNotesList/>
+                        }
+                    </List>
                 </NotesTitleListContainerDiv>
                 <MarkdownContainerDiv>
                     {
@@ -152,6 +195,10 @@ class NotesList extends React.PureComponent<Props> {
         );
     }
 }
+//
+// NotesList.childContextTypes = {
+//     theme: {},
+// };
 
 
-export default NotesList;
+export default withStyles({})(NotesList);
