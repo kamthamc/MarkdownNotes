@@ -18,7 +18,6 @@ const EmptyNotesList = (props: Props) => {
     return (
         <TextField
             type="textarea"
-            label="Multiline"
             multiline
             rows="10"
             placeholder="Notes"
@@ -26,8 +25,7 @@ const EmptyNotesList = (props: Props) => {
             autoFocus
             value={props.note.content}
             onChange={onChange}
-            margin="normal"
-            helperText="hello"
+            margin="none"
             variant="filled"
         />
     );

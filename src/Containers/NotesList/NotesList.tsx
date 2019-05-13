@@ -12,11 +12,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import {
-    MarkdownContainerDiv,
-    NotesTitleListContainerDiv,
-    NotesListContainerDiv,
-} from './Styled';
+import { MarkdownContainerDiv, NotesListContainerDiv, NotesTitleListContainerDiv, } from './Styled';
 import EmptyNotesList from "./EmptyNotesList";
 import EmptySelection from "./EmptySelection";
 import { MarkdownEditor } from "./MarkdownEditor";
@@ -56,8 +52,8 @@ class NotesList extends React.PureComponent<Props> {
     };
 
     getMomentString(value: number | string) {
-       const dt = new Date(value);
-       return `${dt.toLocaleDateString()} ${dt.toLocaleTimeString()}`;
+        const dt = new Date(value);
+        return `${ dt.toLocaleDateString() } ${ dt.toLocaleTimeString() }`;
     }
 
     renderNoteMenu = (id: string) => {
@@ -66,29 +62,29 @@ class NotesList extends React.PureComponent<Props> {
             <ListItem
                 dense
                 button
-                key={id}
-                onClick={() => this.openNote(id)}
-                selected={id === this.props.activeNoteId}
+                key={ id }
+                onClick={ () => this.openNote(id) }
+                selected={ id === this.props.activeNoteId }
                 divider
             >
                 <ListItemText
-                    primary={getMarkdownHTML(title, true)}
-                    secondary={this.getMomentString(updatedTs)}
+                    primary={ getMarkdownHTML(title, true) }
+                    secondary={ this.getMomentString(updatedTs) }
                 />
             </ListItem>
         )
     };
 
     updateNote = (note: Note) => {
-      this.props.updateNote({
-          note
-      });
+        this.props.updateNote({
+            note
+        });
     };
 
     renderMarkdown = () => {
-        if (this.props.activeNoteId) {
+        if ( this.props.activeNoteId ) {
             const activeNote = this.props.notesMap[this.props.activeNoteId];
-            if(activeNote.content.length === 0 && this.props.editMode === false) {
+            if ( activeNote.content.length === 0 && this.props.editMode === false ) {
                 this.props.toggleEditMode({ editMode: true });
             }
             const Panel = this.props.editMode ? MarkdownEditor : PreviewPanel;
@@ -96,57 +92,53 @@ class NotesList extends React.PureComponent<Props> {
                 (
                     <Toolbar variant="dense">
                         <Typography
-                            style={{ flexGrow: 1 }}
+                            style={ { flexGrow: 1 } }
                             variant="h6"
-                            dangerouslySetInnerHTML={{ __html: getMarkdownHTML(activeNote.title, true)}}
+                            dangerouslySetInnerHTML={ { __html: getMarkdownHTML(activeNote.title, true) } }
                         />
                         <IconButton
-                            onClick={() => this.props.toggleEditMode({ editMode: false })}
+                            onClick={ () => this.props.toggleEditMode({ editMode: false }) }
                             color="inherit"
                         >
-                            <CheckCircleIcon />
+                            <CheckCircleIcon/>
                         </IconButton>
                     </Toolbar>
                 ) :
                 (
-                  <Toolbar variant="dense">
-                    <Typography
-                      variant="h6"
-                      style={{ flexGrow: 1 }}
-                      dangerouslySetInnerHTML={{ __html: getMarkdownHTML(activeNote.title, true)}}
-                    />
-                    <div>
-                        <IconButton
-                            onClick={() => this.props.toggleEditMode({ editMode: true })}
-                            color="inherit"
-                        >
-                          <EditIcon />
-                        </IconButton>
-                    </div>
-                  </Toolbar>
+                    <Toolbar variant="dense">
+                        <Typography
+                            variant="h6"
+                            style={ { flexGrow: 1 } }
+                            dangerouslySetInnerHTML={ { __html: getMarkdownHTML(activeNote.title, true) } }
+                        />
+                        <div>
+                            <IconButton
+                                onClick={ () => this.props.toggleEditMode({ editMode: true }) }
+                                color="inherit"
+                            >
+                                <EditIcon/>
+                            </IconButton>
+                        </div>
+                    </Toolbar>
                 );
             return (
                 <>
                     <AppBar position="static">
                         { headerPanel }
                     </AppBar>
-                    <Container maxWidth={false}>
-                        <Card>
-                            <Panel note={activeNote} updateNote={this.updateNote} />
-                        </Card>
-                    </Container>
+                    <Card>
+                        <Panel note={ activeNote } updateNote={ this.updateNote }/>
+                    </Card>
                 </>
             );
         } else {
             return (
                 <>
                     <AppBar position="static">
-                        <Toolbar variant="dense" />
+                        <Toolbar variant="dense"/>
                     </AppBar>
-                    <Container maxWidth={false}>
-                        <Card>
-                            <EmptySelection />
-                        </Card>
+                    <Container maxWidth={ false }>
+                        <EmptySelection/>
                     </Container>
 
                 </>
@@ -162,12 +154,12 @@ class NotesList extends React.PureComponent<Props> {
                         <Toolbar variant="dense">
                             <Typography
                                 variant="h6"
-                                style={{ flexGrow: 1 }}
+                                style={ { flexGrow: 1 } }
                             >
                                 Notes
                             </Typography>
                             <IconButton
-                                onClick={this.addNewNote}
+                                onClick={ this.addNewNote }
                                 color="inherit"
                             >
                                 <AddIcon/>
@@ -181,7 +173,7 @@ class NotesList extends React.PureComponent<Props> {
 
                         {
                             this.props.notes.length === 0 &&
-                            <EmptyNotesList />
+                            <EmptyNotesList/>
                         }
                     </List>
                 </NotesTitleListContainerDiv>

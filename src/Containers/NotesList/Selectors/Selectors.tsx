@@ -12,7 +12,14 @@ export const notesMapSelector = createSelector(listSelector, notesList => {
     }
     return map;
 });
-export const notesListSelector = createSelector(notesMapSelector, map => Object.keys(map));
+export const notesListSelector = createSelector(
+    notesMapSelector,
+    map => {
+        return Object
+            .keys(map)
+            .sort((noteId1, noteId2) => map[noteId2].updatedTs - map[noteId1].updatedTs);
+    }
+);
 
 export const activeNoteIdSelector = createSelector(notesListState, ({ openNote: { noteId } }) => noteId);
 export const editModeSelector = createSelector(notesListState, ({ openNote: { editMode } }) => editMode);

@@ -101,7 +101,7 @@ function* updateNoteSaga(action: any) {
                 type: ActionTypes.UPDATE_NOTE_COMPLETED,
                 payload: {
                     noteIndex: matchedIndex,
-                    note: { ...payload.note, title }
+                    note: { ...payload.note, title, updatedTs: new Date().valueOf() }
                 }
             });
             yield delay(500);

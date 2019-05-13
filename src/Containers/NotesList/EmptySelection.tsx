@@ -1,5 +1,6 @@
 import * as React from 'react';
-
+import Typography from '@material-ui/core/Typography';
+import { getMarkdownHTML } from '../../Helpers/Markdown';
 class EmptySelection extends React.PureComponent {
 
     keyUpEventListener = (evt: KeyboardEvent) => {
@@ -20,9 +21,12 @@ class EmptySelection extends React.PureComponent {
 
     render(): React.ReactNode {
         return (
-            <div>
+            <Typography
+                style={{ flexGrow: 1, padding: '20px' }}
+                variant="h6"
+            >
                 Please select a note continue.
-            </div>
+            </Typography>
         );
     }
 }

@@ -33,7 +33,7 @@ const App = () => (
     <ThemeProvider theme={theme}>
         <ContainerDiv>
             <CssBaseline />
-            <Container maxWidth={false} style={{ height: '100%' }}>
+            <Container maxWidth={false} style={{ height: '100%', padding: 0 }}>
                 <Typography component="div" style={{ height: '100%' }}>
                     <Route path="/" component={NotesListContainer} />
                 </Typography>
