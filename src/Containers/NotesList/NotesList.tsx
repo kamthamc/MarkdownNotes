@@ -4,6 +4,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -11,6 +12,7 @@ import Container from '@material-ui/core/Container';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import { MarkdownContainerDiv, NotesListContainerDiv, NotesTitleListContainerDiv, } from './Styled';
 import EmptyNotesList from "./EmptyNotesList";
@@ -26,6 +28,7 @@ interface Props {
     toggleEditMode: ({}) => void,
     openNote: ({}) => void,
     updateNote: ({}) => void,
+    deleteNote: ({}) => void,
     addNewNote: () => void,
     loadNotes: () => void,
     notes: Array<string>,
@@ -76,6 +79,11 @@ class NotesList extends React.Component<Props> {
                     primary={ getMarkdownHTML(title, true) }
                     secondary={ this.getMomentString(updatedTs) }
                 />
+                <ListItemSecondaryAction>
+                    <IconButton aria-label="Delete" onClick={() => this.props.deleteNote({ noteId: id })}>
+                        <DeleteIcon />
+                    </IconButton>
+                </ListItemSecondaryAction>
             </ListItem>
         )
     };
@@ -95,41 +103,39 @@ class NotesList extends React.Component<Props> {
             const Panel = this.props.editMode ? MarkdownEditor : PreviewPanel;
             const headerPanel = this.props.editMode ?
                 (
-                    <Toolbar variant="dense">
-                        <Typography
-                            style={ { flexGrow: 1 } }
-                            variant="h6"
-                            dangerouslySetInnerHTML={ { __html: getMarkdownHTML(activeNote.title, true) } }
-                        />
-                        <IconButton
-                            onClick={ () => this.props.toggleEditMode({ editMode: false }) }
-                            color="inherit"
-                        >
-                            <CheckCircleIcon/>
-                        </IconButton>
-                    </Toolbar>
+                  <IconButton
+                    onClick={ () => this.props.toggleEditMode({ editMode: false }) }
+                    color="inherit"
+                  >
+                      <CheckCircleIcon/>
+                  </IconButton>
                 ) :
                 (
-                    <Toolbar variant="dense">
-                        <Typography
-                            variant="h6"
-                            style={ { flexGrow: 1 } }
-                            dangerouslySetInnerHTML={ { __html: getMarkdownHTML(activeNote.title, true) } }
-                        />
-                        <div>
-                            <IconButton
-                                onClick={ () => this.props.toggleEditMode({ editMode: true }) }
-                                color="inherit"
-                            >
-                                <EditIcon/>
-                            </IconButton>
-                        </div>
-                    </Toolbar>
+                  <IconButton
+                    onClick={ () => this.props.toggleEditMode({ editMode: true }) }
+                    color="inherit"
+                  >
+                      <EditIcon/>
+                  </IconButton>
                 );
             return (
                 <>
                     <AppBar position="static">
-                        { headerPanel }
+                        <Toolbar variant="dense">
+                            <Typography
+                              style={ { flexGrow: 1 } }
+                              variant="h6"
+                              dangerouslySetInnerHTML={ { __html: getMarkdownHTML(activeNote.title, true) } }
+                            />
+                            <IconButton
+                              onClick={ () => this.props.deleteNote({ noteId: this.props.activeNoteId }) }
+                              color="inherit"
+                            >
+                                <DeleteIcon/>
+                            </IconButton>
+                            { headerPanel }
+                        </Toolbar>
+
                     </AppBar>
                     <Card>
                         <Panel note={ activeNote } updateNote={ this.updateNote }/>
@@ -150,10 +156,6 @@ class NotesList extends React.Component<Props> {
             );
         }
     };
-
-    // getChildContext() {
-    //     return this.context;
-    // }
 
     render() {
         return (
@@ -195,10 +197,6 @@ class NotesList extends React.Component<Props> {
         );
     }
 }
-//
-// NotesList.childContextTypes = {
-//     theme: {},
-// };
 
 
 export default withStyles({})(NotesList);
