@@ -6,6 +6,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import Container from '@material-ui/core/Container';
@@ -22,6 +23,8 @@ import { PreviewPanel } from "./PreviewPanel";
 import { Note } from "./typings";
 import { getMarkdownHTML } from '../../Helpers/Markdown';
 import { ThemeProvider, withStyles  } from '@material-ui/styles';
+// @ts-ignore
+import { saveAs } from 'file-saver';
 
 
 interface Props {
@@ -58,6 +61,15 @@ class NotesList extends React.Component<Props> {
             noteId,
         });
     };
+
+    downloadNote = (noteId: string | undefined) => {
+        if ( noteId ) {
+            const { content, title } = this.props.notesMap[noteId];
+            const fileName = getMarkdownHTML(title, true);
+            const file = new File([content], `${ fileName }.md`, { type: 'text/markdown;charset=utf-8' });
+            saveAs(file);
+        }
+    }
 
     getMomentString(value: number | string) {
         const dt = new Date(value);
@@ -127,6 +139,12 @@ class NotesList extends React.Component<Props> {
                               variant="h6"
                               dangerouslySetInnerHTML={ { __html: getMarkdownHTML(activeNote.title, true) } }
                             />
+                            <IconButton
+                              onClick={ () => this.downloadNote(this.props.activeNoteId) }
+                              color="inherit"
+                            >
+                                <CloudDownloadIcon />
+                            </IconButton>
                             <IconButton
                               onClick={ () => this.props.deleteNote({ noteId: this.props.activeNoteId }) }
                               color="inherit"
