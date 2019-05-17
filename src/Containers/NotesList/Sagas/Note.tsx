@@ -11,6 +11,7 @@ const storageKeyPrefix = 'RMN';
 const notesKey = `${storageKeyPrefix}.notes`;
 
 const listSelector = (state: any) => state.notesList.list;
+const openNoteSelector = (state: any) => state.notesList.openNote;
 
 function* addNewNoteSaga() {
     try {
@@ -52,12 +53,34 @@ function* deleteNoteSaga(action: any) {
         yield put({
             type: ActionTypes.DELETE_NOTE_IN_PROGRESS
         });
-        if ((payload.list.length < payload.index) || (payload.list[payload.index].noteId !== payload.noteId)) {
+        const list = yield select(listSelector);
+        const openNote = yield select(openNoteSelector);
+        let index = 0;
+        for ( index; index < list.length; index += 1 ) {
+            if ( list[index].noteId === payload.noteId ) {
+                break;
+            }
+        }
+        if (index >= list.length || list.length === 0 ) {
              throw new Error('Invalid Index');
+        }
+        if ( openNote.noteId === payload.noteId ) {
+            yield put({
+                type: ActionTypes.OPEN_NOTE_COMPLETED,
+                payload: {
+                    noteId: null,
+                }
+            })
         }
         yield put({
             type: ActionTypes.DELETE_NOTE_COMPLETED,
-            payload
+            payload: {
+                index,
+            }
+        });
+        yield delay(500);
+        yield put({
+            type: ActionTypes.SAVE_NOTES
         });
     } catch (e) {
         yield put({
