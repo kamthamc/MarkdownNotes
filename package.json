@@ -27,7 +27,7 @@
   "homepage": "https://github.com/kamthamc/MarkdownNotes#readme",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.2",
-    "@material-ui/core": "^4.4.1",
+    "@material-ui/core": "^4.0.0-beta.1",
     "@material-ui/icons": "^4.0.0-beta.0",
     "@material-ui/styles": "^4.0.0-beta.1",
     "file-saver": "^2.0.2",
